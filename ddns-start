@@ -17,12 +17,7 @@ get_dns_record_ids() {
     -H "Authorization: Bearer ${api_token}" \
     -H "Content-Type:application/json")"
 
-  echo $RESPONSE | python -c "
-import sys, json
-
-data = json.load(sys.stdin)
-for record in data['result']:
-    print (record['id'])"
+  echo $RESPONSE | grep -o '"id":"[^"]*' | grep -o '[^"]*$'
 }
 
 update_dns_record() {
